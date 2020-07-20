@@ -1,0 +1,33 @@
+.GoodsTable
+{
+  border: double gray 3px;
+  width: 600px;
+  padding: 5px 5px;
+  background-color: #F0F0F0;
+}
+
+.GoodsTable .Store
+{
+  font-weight: bold;
+  padding: 10px;
+}
+
+.GoodsTable .Goods
+{
+  width: 360px;
+  border: solid blue 1px;
+  border-collapse: collapse;
+  text-align: center;
+ 
+}
+
+.GoodsTable .Head
+{
+  background-color: aqua;
+   
+}
+
+.GoodsTable .Cell
+{
+    border: solid blue 1px;
+}

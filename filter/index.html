@@ -1,0 +1,44 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+  <meta charset="utf-8" />
+  <title>Фильтр</title>
+</head> 
+<body> 
+  <div id="container"></div> 
+      
+  <script src="https://unpkg.com/react@15/dist/react.js"></script> 
+  <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script> 
+      
+  <script src="FilterBlock.js"></script>
+  <link rel="stylesheet" type="text/css" href="FilterBlock.css" />
+  
+
+
+
+  <script>
+
+   
+    var stringsArr=[
+        {text:'частнопредпринимательский',code: 1},
+        {text:'переосвидетельствоваться',code: 2}, 
+        {text:'субстанционализироваться',code: 3},
+        {text:'высокопревосходительство',code: 4},
+        {text:'одиннадцатиклассница',code: 5},
+        {text:'делопроизводительница',code: 6},
+        {text:'гидроэлектростанция',code: 7},
+        {text:'неудовлетворительно',code: 8}, 
+        {text:'сельскохозяйственный',code: 9},
+        {text:'водогрязелечебница',code: 10},       
+    ];
+    
+
+    ReactDOM.render(
+      React.createElement(FilterBlock,{strings:stringsArr}), 
+      document.getElementById('container') 
+    );
+
+  </script>
+
+</body> 
+</html>
