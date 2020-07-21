@@ -25,13 +25,13 @@ var FilterBlock = React.createClass({
       if (EO.target.checked) 
       this.setState( {sort:true, isChecked:true},this.changeList);
       else
-      this.setState( {sort:false, isChecked:false, strings:this.props.strings });
+      this.setState( {sort:false, isChecked:false }, this.changeList);
      
 
     },
 
     changeState2: function(EO) {
-      if (EO.target.value)
+     
       this.setState ( {filterString:EO.target.value},this.changeList)
 
     },

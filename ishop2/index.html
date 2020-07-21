@@ -19,15 +19,15 @@
 
     var storeName='Магазин детской одежды';
     var goodsArr=[ 
-      {title:'шорты для девочки',code:2,url:"https://mv-13.000webhostapp.com/wp-content/uploads/2019/03/IMG_45891.jpg", price:12, quantity:2}, 
-      {title:'юбка',code:3,url:"https://mv-13.000webhostapp.com/wp-content/uploads/2019/03/IMG_45871.jpg", price:15, quantity:4}, 
-      {title:'комплект',code:4, url:"https://mv-13.000webhostapp.com/wp-content/uploads/2019/02/IMG_0177.jpg", price:20, quantity:5} 
+      {title:'шорты для девочки',code:1,url:"https://mv-13.000webhostapp.com/wp-content/uploads/2019/03/IMG_45891.jpg", price:12, quantity:2}, 
+      {title:'юбка',code:2,url:"https://mv-13.000webhostapp.com/wp-content/uploads/2019/03/IMG_45871.jpg", price:15, quantity:4}, 
+      {title:'комплект',code:3, url:"https://mv-13.000webhostapp.com/wp-content/uploads/2019/02/IMG_0177.jpg", price:20, quantity:5} 
     ];
     
 
     ReactDOM.render(
        
-      React.createElement(GoodsTable,{store:storeName, goods:goodsArr}), 
+      React.createElement(Store,{store:storeName, goods:goodsArr}), 
       document.getElementById('container') 
     );
 

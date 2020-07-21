@@ -9,9 +9,7 @@
       
   <script src="https://unpkg.com/react@15/dist/react.js"></script> 
   <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script> 
-  
-  <script src="Store.js"></script>
-  <link rel="stylesheet" type="text/css" href="Store.css" />
+      
   <script src="GoodsTable.js"></script>
   <link rel="stylesheet" type="text/css" href="GoodsTable.css" />
 
@@ -26,8 +24,7 @@
     
 
     ReactDOM.render(
-       
-      React.createElement(GoodsTable,{store:storeName, goods:goodsArr}), 
+      React.createElement(GoodsTable,{store:storeName,goods:goodsArr}), 
       document.getElementById('container') 
     );
 

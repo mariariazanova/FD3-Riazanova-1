@@ -1,7 +1,7 @@
 .GoodsTable
 {
   border: double gray 3px;
-  width: 600px;
+  width: 500px;
   padding: 5px 5px;
   background-color: #F0F0F0;
 }
@@ -20,12 +20,6 @@
   text-align: center;
  
 }
-
-.GoodsTable .TrayColor
-{
-  background-color: red;
-}
-
 
 .GoodsTable .Head
 {
