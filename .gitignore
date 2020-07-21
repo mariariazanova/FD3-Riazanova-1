@@ -1,3 +1,2 @@
-/.git
-/ishop
-/ishop2
+node_modules/
+.idea/
