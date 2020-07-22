@@ -28,5 +28,4 @@ class RainbowFrame extends React.Component {
 
 }
 
-export default RainbowFrame;    
-
+export default RainbowFrame;
