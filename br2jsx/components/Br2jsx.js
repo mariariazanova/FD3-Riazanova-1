@@ -17,7 +17,7 @@ class Br2jsx extends React.Component {
         return (
         (i === a.length-1)
         ? v
-        : v = [v, <br key={i}/>]  
+        : [v, <br key={i}/>]  
         )             
         });
         console.log (textSplitShow);
