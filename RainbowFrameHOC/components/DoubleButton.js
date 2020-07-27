@@ -26,10 +26,10 @@ class DoubleButton extends React.Component {
 
     return (
         <div className="DoubleButton">
-            <input type='button' value='this.props.caption1'
+            <input type='button' value={this.props.caption1}
                    onClick={this.clickButton}   /> 
             {rainbow}
-            <input type='button' value='this.props.caption2'
+            <input type='button' value={this.props.caption2}
                    onClick={this.clickButton}   /> 
         </div>           
             
