@@ -22,9 +22,10 @@ class RainbowFrame extends React.Component {
   
     
     return (
-      <DoubleButton caption1='однажды' caption2='пору' cbPressed={ num => alert(num) } >в студёную зимнюю</DoubleButton>,
+      <div class="RainbowFrameHOC">
+      <DoubleButton caption1='однажды' caption2='пору' cbPressed={ num => alert(num) } >в студёную зимнюю</DoubleButton>
       <FramedDoubleButton caption1="я из лесу" caption2="мороз" cbPressed={ num => alert(num) }>вышел, был сильный</FramedDoubleButton>
-           
+      </div>     
             
     );  
   }

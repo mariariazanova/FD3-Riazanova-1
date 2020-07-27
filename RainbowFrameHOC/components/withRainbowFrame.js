@@ -8,7 +8,8 @@ function withRainbowFrame(color) {
           comp= <div style={{border:"solid 8px "+color,padding:"8px"}}>
               {comp}
           </div>
-        )  
+        );
+        return comp;  
       };
     };
 }

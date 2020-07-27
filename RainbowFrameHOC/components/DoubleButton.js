@@ -18,12 +18,7 @@ class DoubleButton extends React.Component {
   render() {
   
     let rainbow = this.props.children;
-    //this.props.colors.forEach( (color) =>  
-    //    rainbow= <div style={{border:"solid 8px "+color,padding:"8px"}}>
-    //               {rainbow}
-    //             </div>
-    //);  
-
+    
     return (
         <div className="DoubleButton">
             <input type='button' value={this.props.caption1}
