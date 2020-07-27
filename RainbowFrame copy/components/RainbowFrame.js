@@ -16,7 +16,7 @@ class RainbowFrame extends React.Component {
     return (
       (this.props.colors.length)
       ? <div style={{border: "solid 8px " + this.props.colors[0], padding: "8px"}}>
-              <RainbowFrame colors={this.props.colors.splice(1)}>  { /* <передаем массив цветов, кроме первого/> */ }
+              <RainbowFrame colors={this.props.colors.splice(1)}> { /* <передаем массив цветов, кроме первого/> */ }
                   {this.props.children}
               </RainbowFrame>
          </div>
@@ -24,6 +24,8 @@ class RainbowFrame extends React.Component {
      
     );
   }
+
+
 
 
 }
