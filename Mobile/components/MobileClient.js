@@ -9,7 +9,7 @@ class MobileClient extends React.PureComponent {
 
   static propTypes = {
     
-    FIO:PropTypes.shape({
+    clientInfo:PropTypes.shape({
       id: PropTypes.number.isRequired,
       fam: PropTypes.string.isRequired,
       im: PropTypes.string.isRequired,
@@ -20,41 +20,41 @@ class MobileClient extends React.PureComponent {
   };
 
   //state = {
-  //  FIO: this.props.FIO,
+  //  clientInfo: this.props.clientInfo,
   //};
 
-  componentWillReceiveProps = (newProps) => { 
-    console.log("MobileClient id="+this.props.FIO.id+" componentWillReceiveProps");  
-  //  this.setState({FIO:newProps.FIO});
-  };
+  //componentWillReceiveProps = (newProps) => { 
+  //  console.log("MobileClient id="+this.props.clientInfo.id+" componentWillReceiveProps");  
+  //  this.setState({clientInfo:newProps.clientInfo});
+  //};
 
   //передача информации о том, что нажата кнопка "редактировать" у какого-то клиента
   editGood = () => {
-      mobileEvents.emit('EEditClient', this.props.FIO.id)
+      mobileEvents.emit('EEditClient', this.props.clientInfo.id)
   }
 
   //передача информации о том, что нажата кнопка "удалить" у какого-то клиента  
   deleteGood= () => {
       var question=confirm("Вы уверены, что хотите удалить этот товар?");  
       if (question) {
-        mobileEvents.emit('EDeleteClient',this.props.FIO.id);
+        mobileEvents.emit('EDeleteClient',this.props.clientInfo.id);
       }
       
   }
 
     render() {
 
-      console.log("MobileClient id="+this.props.FIO.id+" render"); 
+      console.log("MobileClient id="+this.props.clientInfo.id+" render"); 
        
         return (
             <tr className={'NewTray'}>
-              <td className='cell'>{this.props.FIO.fam}</td> 
-              <td className='cell'>{this.props.FIO.im}</td>
-              <td className='cell'>{this.props.FIO.otch}</td>
-              <td className='cell'>{this.props.FIO.balance}</td>
+              <td className='cell'>{this.props.clientInfo.fam}</td> 
+              <td className='cell'>{this.props.clientInfo.im}</td>
+              <td className='cell'>{this.props.clientInfo.otch}</td>
+              <td className='cell'>{this.props.clientInfo.balance}</td>
                
               {
-              (this.props.FIO.balance > 0)
+              (this.props.clientInfo.balance > 0)
               ?<td className='cell MobileClientBalanceActive'>active</td>
               :<td className='cell MobileClientBalanceBlocked'>blocked</td>
               }     

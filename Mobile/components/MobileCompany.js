@@ -28,18 +28,12 @@ class MobileCompany extends React.PureComponent {
       name: this.props.name,
       clients:this.props.clients, //массив отображаемых клиентов
       clients3: this.props.clients, //хеш с элементами просматриваемых клиентов
-      //productToEdit: null, //хеш с элементами редактируемого клиента
       mode:0, //режим работы с карточкой ()
             // 0 - карточка не отображается, 
             // 1 - редактирование карточки,
             // 2 - добавление клиента)
-
-      //isAnyProductChanged: false, //идентификатор наличия несохраненных изменений в информации о клиенте
-      client: {},
-      //selectedButtonCode: null,
+      client: {}
   };
-
-
 
   //обработчики событий
   componentDidMount = () => {
@@ -63,10 +57,10 @@ class MobileCompany extends React.PureComponent {
   //редактирование карточки клиента
   goodEdited =  (id) => {
       this.setState( {editedGoodCode:id});
-      let goodsCard2=this.state.clients3.filter( client => {return client.id=== id});
+      let goodsCard2=this.state.clients3.filter( client => 
+                {return client.id=== id});
       this.setState( {client: goodsCard2[0],
-                    //selectedGoodCode:id,
-                    mode: 1
+                      mode: 1
                   });
   }
 
@@ -74,10 +68,12 @@ class MobileCompany extends React.PureComponent {
   saveEditing = (editClient) => {
     console.log ("editClient=" + editClient);
     console.log (editClient);
-      //let tmpPoductsState = this.state.clients3.slice();
+      
+      
+      {/*
       let changed=false;
       let tmpPoductsState = [...this.state.clients3]; // копия хэша      
-      //let editIndex = tmpPoductsState.findIndex(x => x.id === editClient.id);
+      
       tmpPoductsState.forEach ( (c, i) => {
         if (( c.id==editClient.id && c.fam != editClient.fam ) ||
         (c.id==editClient.id && c.im != editClient.im) || 
@@ -98,58 +94,54 @@ class MobileCompany extends React.PureComponent {
     }
  
      this.setState({mode:0});
+  */}
 
-
-
+      let tmpPoductsState = this.state.clients3.slice();
       //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
-      //tmpPoductsState[editIndex] = editClient;
-      //console.log(tmpPoductsState[editIndex]);
+      let editIndex = tmpPoductsState.findIndex(x => x.id === editClient.id);
+      tmpPoductsState[editIndex] = editClient;
+      console.log(tmpPoductsState[editIndex]);
 
-      //let tmpPoductsState2 = this.state.clients.slice();
-      //let editIndex2 = tmpPoductsState2.findIndex(x => x.id === editClient.id);
+      let tmpPoductsState2 = this.state.clients.slice();
+      let editIndex2 = tmpPoductsState2.findIndex(x => x.id === editClient.id);
       //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
-      //tmpPoductsState2[editIndex2] = editClient;
+      tmpPoductsState2[editIndex2] = editClient;
       
 
-      //this.setState({clients: tmpPoductsState2, //goods: tmpPoductsState,
-      //            clients3: tmpPoductsState,
-      //            mode: 0,
-      //          });
+      this.setState({clients: tmpPoductsState2, //goods: tmpPoductsState,
+                  clients3: tmpPoductsState,
+                  mode: 0,
+                });
   }
 
   //сохранение информации о добавленном товаре
   addGood = (newClient) => {
      console.log (newClient);
-     
-      //let newAddProductData = {code, title, price, url, quantity};//хэш с новым товаром
+           
       let tmpPoductsState = this.state.clients.slice();
       tmpPoductsState.push(newClient);
-       //tmpPoductsState.push(newAddProductData);
-       this.setState({clients:tmpPoductsState, // addNewClient, //tmpPoductsState,
+    
+       this.setState({clients:tmpPoductsState, 
                       clients3: tmpPoductsState,
-                    //selectedGoodCode: null,
-                    mode: 0,
-                    //isAnyProductChanged: false,//указываем, что несохраненных данных о товаре нет
+                      mode: 0,
                     });
   }
   
   //открытие карточки добавления нового клиента по нажатию кнопки "добавить" 
   createNewGood = (EO) => {
       this.setState( {mode: 2,
-                      //selectedGoodCode: null,
-                      client: {"id":this.state.clients[this.state.clients.length - 1].id + 5, "fam" : "", "im" : "", "otch" : "", "balance": 0} ,//null,
-                      //isAnyProductChanged: true,
-                    });
+                      client: {"id":this.state.clients[this.state.clients.length - 1].id + 5, 
+                                "fam" : "", 
+                                "im" : "", 
+                                "otch" : "", 
+                                "balance": 0} ,
+                              });
   }
 
     
   //отмена редактирования или создания карточки клиента+
   cancelEditing = () => {
-      this.setState({//productToEdit: null,
-                    //selectedGoodCode: null, 
-                    mode: 0,
-                    //isAnyProductChanged: false,//указываем, что несохраненных данных о товаре нет
-                  });
+      this.setState({mode: 0});
   }
 
 
@@ -158,11 +150,8 @@ class MobileCompany extends React.PureComponent {
       let clients2=this.state.clients.filter( client => {return client.id!== id}); //оставляем в хэше только неудаляемые строки
       console.log(clients2);
       let clients4=this.state.clients3.filter( client => {return client.id!== id});
-      this.setState( {//selectedButtonCode:id, 
-                   clients:clients2, clients3:clients4});
-      
-     
-     
+      this.setState( {clients:clients2, clients3:clients4});
+  
   };
     
   
@@ -179,20 +168,15 @@ class MobileCompany extends React.PureComponent {
   };
   
   setActive = () => {
-    let filteredClients=this.state.clients.filter( client => {return client.balance >0});
-    this.setState( {clients3: filteredClients,
-                 // productToEdit: null,
-                  
-                });
-    
+    let filteredClients=this.state.clients.filter( client => 
+              {return client.balance >0});
+    this.setState( {clients3: filteredClients});
   };
 
   setBlocked = () => {
-    let filteredClients2=this.state.clients.filter( client => {return client.balance <= 0});
-    this.setState( {clients3: filteredClients2,
-                 // productToEdit: null,
-                  
-                });
+    let filteredClients2=this.state.clients.filter( client => 
+              {return client.balance <= 0});
+    this.setState( {clients3: filteredClients2});
   };
       
     render() {
@@ -214,12 +198,11 @@ class MobileCompany extends React.PureComponent {
          ; 
                           
            var clientsCode=this.state.clients3.map( client => {
-            let FIO={id: client.id, fam:client.fam,im:client.im,otch:client.otch, balance:client.balance};
-            return <MobileClient key={client.id} FIO={FIO} />;
+            //let FIO={id: client.id, fam:client.fam,im:client.im,otch:client.otch, balance:client.balance};
+            return <MobileClient key={client.id} clientInfo={client} />;
             }
             );
-                
-                    
+                      
            return (
             <div className='MobileCompany'>
                 <input type="button" value="МТС" onClick={this.setName1} />
@@ -242,10 +225,6 @@ class MobileCompany extends React.PureComponent {
             <Card 
               key={this.state.clients3.id}
               client={this.state.client} 
-              
-              //selectedGoodCode={this.state.selectedGoodCode}
-              //selectedButtonCode={this.state.selectedButtonCode}
-              //editedGoodCode={this.state.editedGoodCode}
               mode={this.state.mode}
               
             />
