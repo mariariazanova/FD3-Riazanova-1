@@ -29212,8 +29212,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -29237,8 +29235,6 @@ var _Card = __webpack_require__(29);
 var _Card2 = _interopRequireDefault(_Card);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -29264,15 +29260,11 @@ var MobileCompany = function (_React$PureComponent) {
       name: _this.props.name,
       clients: _this.props.clients, //массив отображаемых клиентов
       clients3: _this.props.clients, //хеш с элементами просматриваемых клиентов
-      //productToEdit: null, //хеш с элементами редактируемого клиента
       mode: 0, //режим работы с карточкой ()
       // 0 - карточка не отображается, 
       // 1 - редактирование карточки,
       // 2 - добавление клиента)
-
-      //isAnyProductChanged: false, //идентификатор наличия несохраненных изменений в информации о клиенте
       client: {}
-      //selectedButtonCode: null,
     }, _this.componentDidMount = function () {
       _events.mobileEvents.addListener('EDeleteClient', _this.buttonSelected);
       _events.mobileEvents.addListener('EEditClient', _this.goodEdited);
@@ -29293,73 +29285,76 @@ var MobileCompany = function (_React$PureComponent) {
         return client.id === id;
       });
       _this.setState({ client: goodsCard2[0],
-        //selectedGoodCode:id,
         mode: 1
       });
     }, _this.saveEditing = function (editClient) {
       console.log("editClient=" + editClient);
       console.log(editClient);
-      //let tmpPoductsState = this.state.clients3.slice();
-      var changed = false;
-      var tmpPoductsState = [].concat(_toConsumableArray(_this.state.clients3)); // копия хэша      
-      //let editIndex = tmpPoductsState.findIndex(x => x.id === editClient.id);
-      tmpPoductsState.forEach(function (c, i) {
-        if (c.id == editClient.id && c.fam != editClient.fam || c.id == editClient.id && c.im != editClient.im || c.id == editClient.id && c.otch != editClient.otch || c.id == editClient.id && c.balance != editClient.balance) {
-          var newSaveClient = _extends({}, c); //копия хэша изменившегося клиента
-          newSaveClient.fam = editClient.fam;
-          newSaveClient.im = editClient.im;
-          newSaveClient.otch = editClient.otch;
-          newSaveClient.balance = editClient.balance;
-          tmpPoductsState[i] = newSaveClient;
-          changed = true;
+
+      {/*
+        let changed=false;
+        let tmpPoductsState = [...this.state.clients3]; // копия хэша      
+        
+        tmpPoductsState.forEach ( (c, i) => {
+         if (( c.id==editClient.id && c.fam != editClient.fam ) ||
+         (c.id==editClient.id && c.im != editClient.im) || 
+         (c.id==editClient.id && c.otch != editClient.otch) || 
+         (c.id==editClient.id && c.balance != editClient.balance))  {
+           let newSaveClient={...c}; //копия хэша изменившегося клиента
+           newSaveClient.fam = editClient.fam;
+           newSaveClient.im = editClient.im;
+           newSaveClient.otch = editClient.otch;
+           newSaveClient.balance = editClient.balance;          
+           tmpPoductsState[i]=newSaveClient;
+           changed=true;
+         }
+        });
+        
+        if ( changed ){
+         this.setState({clients:tmpPoductsState, clients3: tmpPoductsState});
         }
+         this.setState({mode:0});
+        */}
+
+      var tmpPoductsState = _this.state.clients3.slice();
+      //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
+      var editIndex = tmpPoductsState.findIndex(function (x) {
+        return x.id === editClient.id;
       });
+      tmpPoductsState[editIndex] = editClient;
+      console.log(tmpPoductsState[editIndex]);
 
-      if (changed) {
-        _this.setState({ clients: tmpPoductsState, clients3: tmpPoductsState });
-      }
-
-      _this.setState({ mode: 0 });
-
+      var tmpPoductsState2 = _this.state.clients.slice();
+      var editIndex2 = tmpPoductsState2.findIndex(function (x) {
+        return x.id === editClient.id;
+      });
       //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
-      //tmpPoductsState[editIndex] = editClient;
-      //console.log(tmpPoductsState[editIndex]);
+      tmpPoductsState2[editIndex2] = editClient;
 
-      //let tmpPoductsState2 = this.state.clients.slice();
-      //let editIndex2 = tmpPoductsState2.findIndex(x => x.id === editClient.id);
-      //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
-      //tmpPoductsState2[editIndex2] = editClient;
-
-
-      //this.setState({clients: tmpPoductsState2, //goods: tmpPoductsState,
-      //            clients3: tmpPoductsState,
-      //            mode: 0,
-      //          });
+      _this.setState({ clients: tmpPoductsState2, //goods: tmpPoductsState,
+        clients3: tmpPoductsState,
+        mode: 0
+      });
     }, _this.addGood = function (newClient) {
       console.log(newClient);
 
-      //let newAddProductData = {code, title, price, url, quantity};//хэш с новым товаром
       var tmpPoductsState = _this.state.clients.slice();
       tmpPoductsState.push(newClient);
-      //tmpPoductsState.push(newAddProductData);
-      _this.setState({ clients: tmpPoductsState, // addNewClient, //tmpPoductsState,
+
+      _this.setState({ clients: tmpPoductsState,
         clients3: tmpPoductsState,
-        //selectedGoodCode: null,
         mode: 0
-        //isAnyProductChanged: false,//указываем, что несохраненных данных о товаре нет
       });
     }, _this.createNewGood = function (EO) {
       _this.setState({ mode: 2,
-        //selectedGoodCode: null,
-        client: { "id": _this.state.clients[_this.state.clients.length - 1].id + 5, "fam": "", "im": "", "otch": "", "balance": 0 } //null,
-        //isAnyProductChanged: true,
+        client: { "id": _this.state.clients[_this.state.clients.length - 1].id + 5,
+          "fam": "",
+          "im": "",
+          "otch": "",
+          "balance": 0 }
       });
     }, _this.cancelEditing = function () {
-      _this.setState({ //productToEdit: null,
-        //selectedGoodCode: null, 
-        mode: 0
-        //isAnyProductChanged: false,//указываем, что несохраненных данных о товаре нет
-      });
+      _this.setState({ mode: 0 });
     }, _this.buttonSelected = function (id) {
       var clients2 = _this.state.clients.filter(function (client) {
         return client.id !== id;
@@ -29368,8 +29363,7 @@ var MobileCompany = function (_React$PureComponent) {
       var clients4 = _this.state.clients3.filter(function (client) {
         return client.id !== id;
       });
-      _this.setState({ //selectedButtonCode:id, 
-        clients: clients2, clients3: clients4 });
+      _this.setState({ clients: clients2, clients3: clients4 });
     }, _this.setName1 = function () {
       _this.setState({ name: 'МТС' });
     }, _this.setName2 = function () {
@@ -29380,18 +29374,12 @@ var MobileCompany = function (_React$PureComponent) {
       var filteredClients = _this.state.clients.filter(function (client) {
         return client.balance > 0;
       });
-      _this.setState({ clients3: filteredClients
-        // productToEdit: null,
-
-      });
+      _this.setState({ clients3: filteredClients });
     }, _this.setBlocked = function () {
       var filteredClients2 = _this.state.clients.filter(function (client) {
         return client.balance <= 0;
       });
-      _this.setState({ clients3: filteredClients2
-        // productToEdit: null,
-
-      });
+      _this.setState({ clients3: filteredClients2 });
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -29467,8 +29455,8 @@ var MobileCompany = function (_React$PureComponent) {
       );
 
       var clientsCode = this.state.clients3.map(function (client) {
-        var FIO = { id: client.id, fam: client.fam, im: client.im, otch: client.otch, balance: client.balance };
-        return _react2.default.createElement(_MobileClient2.default, { key: client.id, FIO: FIO });
+        //let FIO={id: client.id, fam:client.fam,im:client.im,otch:client.otch, balance:client.balance};
+        return _react2.default.createElement(_MobileClient2.default, { key: client.id, clientInfo: client });
       });
 
       return _react2.default.createElement(
@@ -29500,12 +29488,8 @@ var MobileCompany = function (_React$PureComponent) {
           onClick: this.createNewGood }),
         this.state.mode > 0 && _react2.default.createElement(_Card2.default, {
           key: this.state.clients3.id,
-          client: this.state.client
-
-          //selectedGoodCode={this.state.selectedGoodCode}
-          //selectedButtonCode={this.state.selectedButtonCode}
-          //editedGoodCode={this.state.editedGoodCode}
-          , mode: this.state.mode
+          client: this.state.client,
+          mode: this.state.mode
 
         })
       );
@@ -30945,21 +30929,23 @@ var MobileClient = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MobileClient.__proto__ || Object.getPrototypeOf(MobileClient)).call.apply(_ref, [this].concat(args))), _this), _this.componentWillReceiveProps = function (newProps) {
-      console.log("MobileClient id=" + _this.props.FIO.id + " componentWillReceiveProps");
-      //  this.setState({FIO:newProps.FIO});
-    }, _this.editGood = function () {
-      _events.mobileEvents.emit('EEditClient', _this.props.FIO.id);
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MobileClient.__proto__ || Object.getPrototypeOf(MobileClient)).call.apply(_ref, [this].concat(args))), _this), _this.editGood = function () {
+      _events.mobileEvents.emit('EEditClient', _this.props.clientInfo.id);
     }, _this.deleteGood = function () {
       var question = confirm("Вы уверены, что хотите удалить этот товар?");
       if (question) {
-        _events.mobileEvents.emit('EDeleteClient', _this.props.FIO.id);
+        _events.mobileEvents.emit('EDeleteClient', _this.props.clientInfo.id);
       }
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   //state = {
-  //  FIO: this.props.FIO,
+  //  clientInfo: this.props.clientInfo,
+  //};
+
+  //componentWillReceiveProps = (newProps) => { 
+  //  console.log("MobileClient id="+this.props.clientInfo.id+" componentWillReceiveProps");  
+  //  this.setState({clientInfo:newProps.clientInfo});
   //};
 
   //передача информации о том, что нажата кнопка "редактировать" у какого-то клиента
@@ -30972,7 +30958,7 @@ var MobileClient = function (_React$PureComponent) {
     key: 'render',
     value: function render() {
 
-      console.log("MobileClient id=" + this.props.FIO.id + " render");
+      console.log("MobileClient id=" + this.props.clientInfo.id + " render");
 
       return _react2.default.createElement(
         'tr',
@@ -30980,24 +30966,24 @@ var MobileClient = function (_React$PureComponent) {
         _react2.default.createElement(
           'td',
           { className: 'cell' },
-          this.props.FIO.fam
+          this.props.clientInfo.fam
         ),
         _react2.default.createElement(
           'td',
           { className: 'cell' },
-          this.props.FIO.im
+          this.props.clientInfo.im
         ),
         _react2.default.createElement(
           'td',
           { className: 'cell' },
-          this.props.FIO.otch
+          this.props.clientInfo.otch
         ),
         _react2.default.createElement(
           'td',
           { className: 'cell' },
-          this.props.FIO.balance
+          this.props.clientInfo.balance
         ),
-        this.props.FIO.balance > 0 ? _react2.default.createElement(
+        this.props.clientInfo.balance > 0 ? _react2.default.createElement(
           'td',
           { className: 'cell MobileClientBalanceActive' },
           'active'
@@ -31029,7 +31015,7 @@ var MobileClient = function (_React$PureComponent) {
 
 MobileClient.propTypes = {
 
-  FIO: _propTypes2.default.shape({
+  clientInfo: _propTypes2.default.shape({
     id: _propTypes2.default.number.isRequired,
     fam: _propTypes2.default.string.isRequired,
     im: _propTypes2.default.string.isRequired,
@@ -31094,7 +31080,6 @@ var Card = function (_React$PureComponent) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Card.__proto__ || Object.getPrototypeOf(Card)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-
       cardName: _this.props.mode === 2 ? 'Добавление нового клиента:' : _this.props.mode === 1 ? 'Редактирование информации о клиенте:' : '',
       client: _this.props.client
 
@@ -31227,12 +31212,7 @@ Card.propTypes = {
     otch: _propTypes2.default.string.isRequired,
     balance: _propTypes2.default.number.isRequired
   }).isRequired,
-
-  //selectedGoodCode: PropTypes.number,
-  //selectedButtonCode : PropTypes.number,
-  //editedGoodCode : PropTypes.number,
   mode: _propTypes2.default.number.isRequired
-
 };
 exports.default = Card;
 
