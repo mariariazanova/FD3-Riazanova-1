@@ -29212,6 +29212,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -29235,6 +29237,8 @@ var _Card = __webpack_require__(29);
 var _Card2 = _interopRequireDefault(_Card);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -29290,33 +29294,47 @@ var MobileCompany = function (_React$PureComponent) {
       });
       _this.setState({ client: goodsCard2[0],
         //selectedGoodCode:id,
-        //goods3: null,
         mode: 1
       });
     }, _this.saveEditing = function (editClient) {
+      console.log("editClient=" + editClient);
       console.log(editClient);
-      //let newEditProductData = {code, title, price, url, quantity};//хэш с новым данными товара
-      var tmpPoductsState = _this.state.clients3.slice();
-      var editIndex = tmpPoductsState.findIndex(function (x) {
-        return x.id === editClient.id;
+      //let tmpPoductsState = this.state.clients3.slice();
+      var changed = false;
+      var tmpPoductsState = [].concat(_toConsumableArray(_this.state.clients3)); // копия хэша      
+      //let editIndex = tmpPoductsState.findIndex(x => x.id === editClient.id);
+      tmpPoductsState.forEach(function (c, i) {
+        if (c.id == editClient.id && c.fam != editClient.fam || c.id == editClient.id && c.im != editClient.im || c.id == editClient.id && c.otch != editClient.otch || c.id == editClient.id && c.balance != editClient.balance) {
+          var newSaveClient = _extends({}, c); //копия хэша изменившегося клиента
+          newSaveClient.fam = editClient.fam;
+          newSaveClient.im = editClient.im;
+          newSaveClient.otch = editClient.otch;
+          newSaveClient.balance = editClient.balance;
+          tmpPoductsState[i] = newSaveClient;
+          changed = true;
+        }
       });
-      //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
-      tmpPoductsState[editIndex] = editClient;
-      console.log(tmpPoductsState[editIndex]);
 
-      var tmpPoductsState2 = _this.state.clients.slice();
-      var editIndex2 = tmpPoductsState2.findIndex(function (x) {
-        return x.id === editClient.id;
-      });
-      //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
-      tmpPoductsState2[editIndex2] = editClient;
+      if (changed) {
+        _this.setState({ clients: tmpPoductsState, clients3: tmpPoductsState });
+      }
 
-      _this.setState({ clients: tmpPoductsState2, //goods: tmpPoductsState,
-        clients3: tmpPoductsState,
-        //productToEdit: null,
-        mode: 0
-        //isAnyProductChanged: false,//указываем, что несохраненных данных о товаре нет
-      });
+      _this.setState({ mode: 0 });
+
+      //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
+      //tmpPoductsState[editIndex] = editClient;
+      //console.log(tmpPoductsState[editIndex]);
+
+      //let tmpPoductsState2 = this.state.clients.slice();
+      //let editIndex2 = tmpPoductsState2.findIndex(x => x.id === editClient.id);
+      //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
+      //tmpPoductsState2[editIndex2] = editClient;
+
+
+      //this.setState({clients: tmpPoductsState2, //goods: tmpPoductsState,
+      //            clients3: tmpPoductsState,
+      //            mode: 0,
+      //          });
     }, _this.addGood = function (newClient) {
       console.log(newClient);
 
@@ -29350,7 +29368,8 @@ var MobileCompany = function (_React$PureComponent) {
       var clients4 = _this.state.clients3.filter(function (client) {
         return client.id !== id;
       });
-      _this.setState({ selectedButtonCode: id, clients: clients2, clients3: clients4 });
+      _this.setState({ //selectedButtonCode:id, 
+        clients: clients2, clients3: clients4 });
     }, _this.setName1 = function () {
       _this.setState({ name: 'МТС' });
     }, _this.setName2 = function () {
@@ -30926,12 +30945,9 @@ var MobileClient = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MobileClient.__proto__ || Object.getPrototypeOf(MobileClient)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      FIO: _this.props.FIO
-
-    }, _this.componentWillReceiveProps = function (newProps) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MobileClient.__proto__ || Object.getPrototypeOf(MobileClient)).call.apply(_ref, [this].concat(args))), _this), _this.componentWillReceiveProps = function (newProps) {
       console.log("MobileClient id=" + _this.props.FIO.id + " componentWillReceiveProps");
-      _this.setState({ FIO: newProps.FIO });
+      //  this.setState({FIO:newProps.FIO});
     }, _this.editGood = function () {
       _events.mobileEvents.emit('EEditClient', _this.props.FIO.id);
     }, _this.deleteGood = function () {
@@ -30941,6 +30957,10 @@ var MobileClient = function (_React$PureComponent) {
       }
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
+
+  //state = {
+  //  FIO: this.props.FIO,
+  //};
 
   //передача информации о том, что нажата кнопка "редактировать" у какого-то клиента
 
@@ -30952,7 +30972,7 @@ var MobileClient = function (_React$PureComponent) {
     key: 'render',
     value: function render() {
 
-      console.log("MobileClient id=" + this.state.FIO.id + " render");
+      console.log("MobileClient id=" + this.props.FIO.id + " render");
 
       return _react2.default.createElement(
         'tr',
@@ -30960,22 +30980,22 @@ var MobileClient = function (_React$PureComponent) {
         _react2.default.createElement(
           'td',
           { className: 'cell' },
-          this.state.FIO.fam
+          this.props.FIO.fam
         ),
         _react2.default.createElement(
           'td',
           { className: 'cell' },
-          this.state.FIO.im
+          this.props.FIO.im
         ),
         _react2.default.createElement(
           'td',
           { className: 'cell' },
-          this.state.FIO.otch
+          this.props.FIO.otch
         ),
         _react2.default.createElement(
           'td',
           { className: 'cell' },
-          this.state.FIO.balance
+          this.props.FIO.balance
         ),
         this.props.FIO.balance > 0 ? _react2.default.createElement(
           'td',
