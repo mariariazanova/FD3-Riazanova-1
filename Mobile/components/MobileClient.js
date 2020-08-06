@@ -19,15 +19,13 @@ class MobileClient extends React.PureComponent {
     
   };
 
-  state = {
-    FIO: this.props.FIO,
-   
-
-  };
+  //state = {
+  //  FIO: this.props.FIO,
+  //};
 
   componentWillReceiveProps = (newProps) => { 
     console.log("MobileClient id="+this.props.FIO.id+" componentWillReceiveProps");  
-    this.setState({FIO:newProps.FIO});
+  //  this.setState({FIO:newProps.FIO});
   };
 
   //передача информации о том, что нажата кнопка "редактировать" у какого-то клиента
@@ -46,14 +44,14 @@ class MobileClient extends React.PureComponent {
 
     render() {
 
-      console.log("MobileClient id="+this.state.FIO.id+" render"); 
+      console.log("MobileClient id="+this.props.FIO.id+" render"); 
        
         return (
             <tr className={'NewTray'}>
-              <td className='cell'>{this.state.FIO.fam}</td> 
-              <td className='cell'>{this.state.FIO.im}</td>
-              <td className='cell'>{this.state.FIO.otch}</td>
-              <td className='cell'>{this.state.FIO.balance}</td>
+              <td className='cell'>{this.props.FIO.fam}</td> 
+              <td className='cell'>{this.props.FIO.im}</td>
+              <td className='cell'>{this.props.FIO.otch}</td>
+              <td className='cell'>{this.props.FIO.balance}</td>
                
               {
               (this.props.FIO.balance > 0)

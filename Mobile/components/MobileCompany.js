@@ -66,35 +66,55 @@ class MobileCompany extends React.PureComponent {
       let goodsCard2=this.state.clients3.filter( client => {return client.id=== id});
       this.setState( {client: goodsCard2[0],
                     //selectedGoodCode:id,
-                    //goods3: null,
                     mode: 1
                   });
   }
 
   //сохранение отредактированных данных
   saveEditing = (editClient) => {
+    console.log ("editClient=" + editClient);
     console.log (editClient);
-      //let newEditProductData = {code, title, price, url, quantity};//хэш с новым данными товара
-      let tmpPoductsState = this.state.clients3.slice();
-      let editIndex = tmpPoductsState.findIndex(x => x.id === editClient.id);
-      //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
-      tmpPoductsState[editIndex] = editClient;
-      console.log(tmpPoductsState[editIndex]);
+      //let tmpPoductsState = this.state.clients3.slice();
+      let changed=false;
+      let tmpPoductsState = [...this.state.clients3]; // копия хэша      
+      //let editIndex = tmpPoductsState.findIndex(x => x.id === editClient.id);
+      tmpPoductsState.forEach ( (c, i) => {
+        if (( c.id==editClient.id && c.fam != editClient.fam ) ||
+        (c.id==editClient.id && c.im != editClient.im) || 
+        (c.id==editClient.id && c.otch != editClient.otch) || 
+        (c.id==editClient.id && c.balance != editClient.balance))  {
+          let newSaveClient={...c}; //копия хэша изменившегося клиента
+          newSaveClient.fam = editClient.fam;
+          newSaveClient.im = editClient.im;
+          newSaveClient.otch = editClient.otch;
+          newSaveClient.balance = editClient.balance;          
+          tmpPoductsState[i]=newSaveClient;
+          changed=true;
+        }
+      });
+      
+      if ( changed ){
+        this.setState({clients:tmpPoductsState, clients3: tmpPoductsState});
+    }
+ 
+     this.setState({mode:0});
 
-      let tmpPoductsState2 = this.state.clients.slice();
-      let editIndex2 = tmpPoductsState2.findIndex(x => x.id === editClient.id);
+
+
       //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
-      tmpPoductsState2[editIndex2] = editClient;
+      //tmpPoductsState[editIndex] = editClient;
+      //console.log(tmpPoductsState[editIndex]);
+
+      //let tmpPoductsState2 = this.state.clients.slice();
+      //let editIndex2 = tmpPoductsState2.findIndex(x => x.id === editClient.id);
+      //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
+      //tmpPoductsState2[editIndex2] = editClient;
       
 
-
-
-      this.setState({clients: tmpPoductsState2, //goods: tmpPoductsState,
-                  clients3: tmpPoductsState,
-                  //productToEdit: null,
-                  mode: 0,
-                  //isAnyProductChanged: false,//указываем, что несохраненных данных о товаре нет
-                });
+      //this.setState({clients: tmpPoductsState2, //goods: tmpPoductsState,
+      //            clients3: tmpPoductsState,
+      //            mode: 0,
+      //          });
   }
 
   //сохранение информации о добавленном товаре
@@ -138,7 +158,8 @@ class MobileCompany extends React.PureComponent {
       let clients2=this.state.clients.filter( client => {return client.id!== id}); //оставляем в хэше только неудаляемые строки
       console.log(clients2);
       let clients4=this.state.clients3.filter( client => {return client.id!== id});
-      this.setState( {selectedButtonCode:id, clients:clients2, clients3:clients4});
+      this.setState( {//selectedButtonCode:id, 
+                   clients:clients2, clients3:clients4});
       
      
      
