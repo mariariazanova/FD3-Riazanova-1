@@ -32,7 +32,8 @@ class MobileCompany extends React.PureComponent {
             // 0 - карточка не отображается, 
             // 1 - редактирование карточки,
             // 2 - добавление клиента)
-      client: {}
+      client: {},
+      //maxId: 0
   };
 
   //обработчики событий
@@ -127,10 +128,18 @@ class MobileCompany extends React.PureComponent {
                     });
   }
   
+
+  
+
   //открытие карточки добавления нового клиента по нажатию кнопки "добавить" 
   createNewGood = (EO) => {
-      this.setState( {mode: 2,
-                      client: {"id":this.state.clients[this.state.clients.length - 1].id + 5, 
+    let idMax= this.getMaxClientsId(this.state.clients);
+    
+    this.setState( {mode: 2,
+                      client: {//"id":this.state.clients[this.state.clients.length - 1].id + 5, 
+                                //"id" : this.state.maxId + 1,
+                                //"id" : existingClientsId.maxIdValue + 1,
+                                "id" : idMax +1, 
                                 "fam" : "", 
                                 "im" : "", 
                                 "otch" : "", 
@@ -154,6 +163,8 @@ class MobileCompany extends React.PureComponent {
   
   };
     
+
+  
   
   setName1 = () => {
     this.setState({name:'МТС'});
@@ -178,10 +189,25 @@ class MobileCompany extends React.PureComponent {
               {return client.balance <= 0});
     this.setState( {clients3: filteredClients2});
   };
-      
+
+  getMaxClientsId = arrOfClients => {
+    let arrOfClientsId = arrOfClients.map( value => value.id);
+    let maxIdValue = arrOfClientsId.sort((a, b) => b - a)[0];
+    //return {arr: arrOfClientsId, maxIdValue: maxIdValue};//хэш, ключ arr - массив существующих id, ключ maxIdValue - максимальное значение id 
+    //console.log (arr);
+  //  this.setState({maxId: maxIdValue}); 
+  //  console.log(maxId);
+    return maxIdValue;
+  };
+
+ 
+  
+
     render() {
-      
+     
       console.log("MobileCompany render"); 
+      //this.getMaxClientsId (this.state.clients);
+
 
           var headCode=
           <thead className=''>
@@ -199,9 +225,13 @@ class MobileCompany extends React.PureComponent {
                           
            var clientsCode=this.state.clients3.map( client => {
             //let FIO={id: client.id, fam:client.fam,im:client.im,otch:client.otch, balance:client.balance};
+            
             return <MobileClient key={client.id} clientInfo={client} />;
+            
             }
-            );
+           );
+          
+          
                       
            return (
             <div className='MobileCompany'>
