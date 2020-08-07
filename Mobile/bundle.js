@@ -29292,6 +29292,7 @@ var MobileCompany = function (_React$PureComponent) {
       console.log("editClient=" + editClient);
       console.log(editClient);
 
+<<<<<<< HEAD
       {/*
         let changed=false;
         let tmpPoductsState = [...this.state.clients3]; // копия хэша      
@@ -29315,6 +29316,31 @@ var MobileCompany = function (_React$PureComponent) {
          this.setState({clients:tmpPoductsState, clients3: tmpPoductsState});
         }
          this.setState({mode:0});
+=======
+      {/*
+        let changed=false;
+        let tmpPoductsState = [...this.state.clients3]; // копия хэша      
+        
+        tmpPoductsState.forEach ( (c, i) => {
+         if (( c.id==editClient.id && c.fam != editClient.fam ) ||
+         (c.id==editClient.id && c.im != editClient.im) || 
+         (c.id==editClient.id && c.otch != editClient.otch) || 
+         (c.id==editClient.id && c.balance != editClient.balance))  {
+           let newSaveClient={...c}; //копия хэша изменившегося клиента
+           newSaveClient.fam = editClient.fam;
+           newSaveClient.im = editClient.im;
+           newSaveClient.otch = editClient.otch;
+           newSaveClient.balance = editClient.balance;          
+           tmpPoductsState[i]=newSaveClient;
+           changed=true;
+         }
+        });
+        
+        if ( changed ){
+         this.setState({clients:tmpPoductsState, clients3: tmpPoductsState});
+        }
+         this.setState({mode:0});
+>>>>>>> 93b6e65820f8361ee0df22ce7bc2ea35efa83116
         */}
 
       var tmpPoductsState = _this.state.clients3.slice();
