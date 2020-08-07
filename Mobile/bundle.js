@@ -29260,15 +29260,12 @@ var MobileCompany = function (_React$PureComponent) {
       name: _this.props.name,
       clients: _this.props.clients, //массив отображаемых клиентов
       clients3: _this.props.clients, //хеш с элементами просматриваемых клиентов
-      //productToEdit: null, //хеш с элементами редактируемого клиента
       mode: 0, //режим работы с карточкой ()
       // 0 - карточка не отображается, 
       // 1 - редактирование карточки,
       // 2 - добавление клиента)
-
-      //isAnyProductChanged: false, //идентификатор наличия несохраненных изменений в информации о клиенте
       client: {}
-      //selectedButtonCode: null,
+      //maxId: 0
     }, _this.componentDidMount = function () {
       _events.mobileEvents.addListener('EDeleteClient', _this.buttonSelected);
       _events.mobileEvents.addListener('EEditClient', _this.goodEdited);
@@ -29289,18 +29286,42 @@ var MobileCompany = function (_React$PureComponent) {
         return client.id === id;
       });
       _this.setState({ client: goodsCard2[0],
-        //selectedGoodCode:id,
-        //goods3: null,
         mode: 1
       });
     }, _this.saveEditing = function (editClient) {
+      console.log("editClient=" + editClient);
       console.log(editClient);
-      //let newEditProductData = {code, title, price, url, quantity};//хэш с новым данными товара
+
+      {/*
+        let changed=false;
+        let tmpPoductsState = [...this.state.clients3]; // копия хэша      
+        
+        tmpPoductsState.forEach ( (c, i) => {
+         if (( c.id==editClient.id && c.fam != editClient.fam ) ||
+         (c.id==editClient.id && c.im != editClient.im) || 
+         (c.id==editClient.id && c.otch != editClient.otch) || 
+         (c.id==editClient.id && c.balance != editClient.balance))  {
+           let newSaveClient={...c}; //копия хэша изменившегося клиента
+           newSaveClient.fam = editClient.fam;
+           newSaveClient.im = editClient.im;
+           newSaveClient.otch = editClient.otch;
+           newSaveClient.balance = editClient.balance;          
+           tmpPoductsState[i]=newSaveClient;
+           changed=true;
+         }
+        });
+        
+        if ( changed ){
+         this.setState({clients:tmpPoductsState, clients3: tmpPoductsState});
+        }
+         this.setState({mode:0});
+        */}
+
       var tmpPoductsState = _this.state.clients3.slice();
+      //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
       var editIndex = tmpPoductsState.findIndex(function (x) {
         return x.id === editClient.id;
       });
-      //меняем данные редактируемого клиента, перезаписав хэш по индексу в массиве товаров
       tmpPoductsState[editIndex] = editClient;
       console.log(tmpPoductsState[editIndex]);
 
@@ -29313,35 +29334,33 @@ var MobileCompany = function (_React$PureComponent) {
 
       _this.setState({ clients: tmpPoductsState2, //goods: tmpPoductsState,
         clients3: tmpPoductsState,
-        //productToEdit: null,
         mode: 0
-        //isAnyProductChanged: false,//указываем, что несохраненных данных о товаре нет
       });
     }, _this.addGood = function (newClient) {
       console.log(newClient);
 
-      //let newAddProductData = {code, title, price, url, quantity};//хэш с новым товаром
       var tmpPoductsState = _this.state.clients.slice();
       tmpPoductsState.push(newClient);
-      //tmpPoductsState.push(newAddProductData);
-      _this.setState({ clients: tmpPoductsState, // addNewClient, //tmpPoductsState,
+
+      _this.setState({ clients: tmpPoductsState,
         clients3: tmpPoductsState,
-        //selectedGoodCode: null,
         mode: 0
-        //isAnyProductChanged: false,//указываем, что несохраненных данных о товаре нет
       });
     }, _this.createNewGood = function (EO) {
+      var idMax = _this.getMaxClientsId(_this.state.clients);
+
       _this.setState({ mode: 2,
-        //selectedGoodCode: null,
-        client: { "id": _this.state.clients[_this.state.clients.length - 1].id + 5, "fam": "", "im": "", "otch": "", "balance": 0 } //null,
-        //isAnyProductChanged: true,
+        client: { //"id":this.state.clients[this.state.clients.length - 1].id + 5, 
+          //"id" : this.state.maxId + 1,
+          //"id" : existingClientsId.maxIdValue + 1,
+          "id": idMax + 1,
+          "fam": "",
+          "im": "",
+          "otch": "",
+          "balance": 0 }
       });
     }, _this.cancelEditing = function () {
-      _this.setState({ //productToEdit: null,
-        //selectedGoodCode: null, 
-        mode: 0
-        //isAnyProductChanged: false,//указываем, что несохраненных данных о товаре нет
-      });
+      _this.setState({ mode: 0 });
     }, _this.buttonSelected = function (id) {
       var clients2 = _this.state.clients.filter(function (client) {
         return client.id !== id;
@@ -29350,7 +29369,7 @@ var MobileCompany = function (_React$PureComponent) {
       var clients4 = _this.state.clients3.filter(function (client) {
         return client.id !== id;
       });
-      _this.setState({ selectedButtonCode: id, clients: clients2, clients3: clients4 });
+      _this.setState({ clients: clients2, clients3: clients4 });
     }, _this.setName1 = function () {
       _this.setState({ name: 'МТС' });
     }, _this.setName2 = function () {
@@ -29361,18 +29380,24 @@ var MobileCompany = function (_React$PureComponent) {
       var filteredClients = _this.state.clients.filter(function (client) {
         return client.balance > 0;
       });
-      _this.setState({ clients3: filteredClients
-        // productToEdit: null,
-
-      });
+      _this.setState({ clients3: filteredClients });
     }, _this.setBlocked = function () {
       var filteredClients2 = _this.state.clients.filter(function (client) {
         return client.balance <= 0;
       });
-      _this.setState({ clients3: filteredClients2
-        // productToEdit: null,
-
+      _this.setState({ clients3: filteredClients2 });
+    }, _this.getMaxClientsId = function (arrOfClients) {
+      var arrOfClientsId = arrOfClients.map(function (value) {
+        return value.id;
       });
+      var maxIdValue = arrOfClientsId.sort(function (a, b) {
+        return b - a;
+      })[0];
+      //return {arr: arrOfClientsId, maxIdValue: maxIdValue};//хэш, ключ arr - массив существующих id, ключ maxIdValue - максимальное значение id 
+      //console.log (arr);
+      //  this.setState({maxId: maxIdValue}); 
+      //  console.log(maxId);
+      return maxIdValue;
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -29402,6 +29427,8 @@ var MobileCompany = function (_React$PureComponent) {
     value: function render() {
 
       console.log("MobileCompany render");
+      //this.getMaxClientsId (this.state.clients);
+
 
       var headCode = _react2.default.createElement(
         'thead',
@@ -29448,8 +29475,9 @@ var MobileCompany = function (_React$PureComponent) {
       );
 
       var clientsCode = this.state.clients3.map(function (client) {
-        var FIO = { id: client.id, fam: client.fam, im: client.im, otch: client.otch, balance: client.balance };
-        return _react2.default.createElement(_MobileClient2.default, { key: client.id, FIO: FIO });
+        //let FIO={id: client.id, fam:client.fam,im:client.im,otch:client.otch, balance:client.balance};
+
+        return _react2.default.createElement(_MobileClient2.default, { key: client.id, clientInfo: client });
       });
 
       return _react2.default.createElement(
@@ -29481,12 +29509,8 @@ var MobileCompany = function (_React$PureComponent) {
           onClick: this.createNewGood }),
         this.state.mode > 0 && _react2.default.createElement(_Card2.default, {
           key: this.state.clients3.id,
-          client: this.state.client
-
-          //selectedGoodCode={this.state.selectedGoodCode}
-          //selectedButtonCode={this.state.selectedButtonCode}
-          //editedGoodCode={this.state.editedGoodCode}
-          , mode: this.state.mode
+          client: this.state.client,
+          mode: this.state.mode
 
         })
       );
@@ -30926,21 +30950,24 @@ var MobileClient = function (_React$PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MobileClient.__proto__ || Object.getPrototypeOf(MobileClient)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      FIO: _this.props.FIO
-
-    }, _this.componentWillReceiveProps = function (newProps) {
-      console.log("MobileClient id=" + _this.props.FIO.id + " componentWillReceiveProps");
-      _this.setState({ FIO: newProps.FIO });
-    }, _this.editGood = function () {
-      _events.mobileEvents.emit('EEditClient', _this.props.FIO.id);
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MobileClient.__proto__ || Object.getPrototypeOf(MobileClient)).call.apply(_ref, [this].concat(args))), _this), _this.editGood = function () {
+      _events.mobileEvents.emit('EEditClient', _this.props.clientInfo.id);
     }, _this.deleteGood = function () {
       var question = confirm("Вы уверены, что хотите удалить этот товар?");
       if (question) {
-        _events.mobileEvents.emit('EDeleteClient', _this.props.FIO.id);
+        _events.mobileEvents.emit('EDeleteClient', _this.props.clientInfo.id);
       }
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
+
+  //state = {
+  //  clientInfo: this.props.clientInfo,
+  //};
+
+  //componentWillReceiveProps = (newProps) => { 
+  //  console.log("MobileClient id="+this.props.clientInfo.id+" componentWillReceiveProps");  
+  //  this.setState({clientInfo:newProps.clientInfo});
+  //};
 
   //передача информации о том, что нажата кнопка "редактировать" у какого-то клиента
 
@@ -30952,7 +30979,7 @@ var MobileClient = function (_React$PureComponent) {
     key: 'render',
     value: function render() {
 
-      console.log("MobileClient id=" + this.state.FIO.id + " render");
+      console.log("MobileClient id=" + this.props.clientInfo.id + " render");
 
       return _react2.default.createElement(
         'tr',
@@ -30960,24 +30987,24 @@ var MobileClient = function (_React$PureComponent) {
         _react2.default.createElement(
           'td',
           { className: 'cell' },
-          this.state.FIO.fam
+          this.props.clientInfo.fam
         ),
         _react2.default.createElement(
           'td',
           { className: 'cell' },
-          this.state.FIO.im
+          this.props.clientInfo.im
         ),
         _react2.default.createElement(
           'td',
           { className: 'cell' },
-          this.state.FIO.otch
+          this.props.clientInfo.otch
         ),
         _react2.default.createElement(
           'td',
           { className: 'cell' },
-          this.state.FIO.balance
+          this.props.clientInfo.balance
         ),
-        this.props.FIO.balance > 0 ? _react2.default.createElement(
+        this.props.clientInfo.balance > 0 ? _react2.default.createElement(
           'td',
           { className: 'cell MobileClientBalanceActive' },
           'active'
@@ -31009,7 +31036,7 @@ var MobileClient = function (_React$PureComponent) {
 
 MobileClient.propTypes = {
 
-  FIO: _propTypes2.default.shape({
+  clientInfo: _propTypes2.default.shape({
     id: _propTypes2.default.number.isRequired,
     fam: _propTypes2.default.string.isRequired,
     im: _propTypes2.default.string.isRequired,
@@ -31074,7 +31101,6 @@ var Card = function (_React$PureComponent) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Card.__proto__ || Object.getPrototypeOf(Card)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-
       cardName: _this.props.mode === 2 ? 'Добавление нового клиента:' : _this.props.mode === 1 ? 'Редактирование информации о клиенте:' : '',
       client: _this.props.client
 
@@ -31207,12 +31233,7 @@ Card.propTypes = {
     otch: _propTypes2.default.string.isRequired,
     balance: _propTypes2.default.number.isRequired
   }).isRequired,
-
-  //selectedGoodCode: PropTypes.number,
-  //selectedButtonCode : PropTypes.number,
-  //editedGoodCode : PropTypes.number,
   mode: _propTypes2.default.number.isRequired
-
 };
 exports.default = Card;
 

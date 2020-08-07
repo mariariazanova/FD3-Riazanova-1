@@ -14,16 +14,10 @@ class Card extends React.PureComponent {
       otch: PropTypes.string.isRequired,
       balance: PropTypes.number.isRequired,
     }).isRequired,
-    
-      //selectedGoodCode: PropTypes.number,
-      //selectedButtonCode : PropTypes.number,
-      //editedGoodCode : PropTypes.number,
-      mode: PropTypes.number.isRequired,
-
+    mode: PropTypes.number.isRequired,
   };
 
   state = {
-  
       cardName: ((this.props.mode===2) ? 'Добавление нового клиента:' : ((this.props.mode===1) ? 'Редактирование информации о клиенте:' : '')),
       client: this.props.client,
       
@@ -37,22 +31,18 @@ class Card extends React.PureComponent {
 
   setNewFamRef = (ref) =>{
     this.newFamRef=ref;
-    
   }
   
   setNewImRef = (ref) =>{
     this.newImRef=ref;
-    
   }
 
   setNewOtchRef = (ref) =>{
       this.newOtchRef=ref;
-    
   }
 
   setNewBalanceRef = (ref) =>{
       this.newBalanceRef=ref;
-    
   }
 
   
