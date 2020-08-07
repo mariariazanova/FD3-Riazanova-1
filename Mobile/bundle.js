@@ -29265,6 +29265,7 @@ var MobileCompany = function (_React$PureComponent) {
       // 1 - редактирование карточки,
       // 2 - добавление клиента)
       client: {}
+      //maxId: 0
     }, _this.componentDidMount = function () {
       _events.mobileEvents.addListener('EDeleteClient', _this.buttonSelected);
       _events.mobileEvents.addListener('EEditClient', _this.goodEdited);
@@ -29346,8 +29347,13 @@ var MobileCompany = function (_React$PureComponent) {
         mode: 0
       });
     }, _this.createNewGood = function (EO) {
+      var idMax = _this.getMaxClientsId(_this.state.clients);
+
       _this.setState({ mode: 2,
-        client: { "id": _this.state.clients[_this.state.clients.length - 1].id + 5,
+        client: { //"id":this.state.clients[this.state.clients.length - 1].id + 5, 
+          //"id" : this.state.maxId + 1,
+          //"id" : existingClientsId.maxIdValue + 1,
+          "id": idMax + 1,
           "fam": "",
           "im": "",
           "otch": "",
@@ -29380,6 +29386,18 @@ var MobileCompany = function (_React$PureComponent) {
         return client.balance <= 0;
       });
       _this.setState({ clients3: filteredClients2 });
+    }, _this.getMaxClientsId = function (arrOfClients) {
+      var arrOfClientsId = arrOfClients.map(function (value) {
+        return value.id;
+      });
+      var maxIdValue = arrOfClientsId.sort(function (a, b) {
+        return b - a;
+      })[0];
+      //return {arr: arrOfClientsId, maxIdValue: maxIdValue};//хэш, ключ arr - массив существующих id, ключ maxIdValue - максимальное значение id 
+      //console.log (arr);
+      //  this.setState({maxId: maxIdValue}); 
+      //  console.log(maxId);
+      return maxIdValue;
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -29409,6 +29427,8 @@ var MobileCompany = function (_React$PureComponent) {
     value: function render() {
 
       console.log("MobileCompany render");
+      //this.getMaxClientsId (this.state.clients);
+
 
       var headCode = _react2.default.createElement(
         'thead',
@@ -29456,6 +29476,7 @@ var MobileCompany = function (_React$PureComponent) {
 
       var clientsCode = this.state.clients3.map(function (client) {
         //let FIO={id: client.id, fam:client.fam,im:client.im,otch:client.otch, balance:client.balance};
+
         return _react2.default.createElement(_MobileClient2.default, { key: client.id, clientInfo: client });
       });
 
