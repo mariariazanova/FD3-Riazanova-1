@@ -1,0 +1,11 @@
+.Table .btn input {
+  margin:10px 2px;
+  padding:2px 6px;
+}
+
+.Table .MobileClientBalanceActive {
+  background-color: lightgreen;
+}
+.Table .MobileClientBalanceBlocked {
+  background-color: salmon;
+}

@@ -1,0 +1,55 @@
+#container {
+  max-width: 930px;
+  margin: 0 auto;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+.MobileCompany {
+  margin: 0 auto;
+  padding: 5px 5px;
+  background-color: #fff;
+}
+
+.MobileCompany .MobileCompanyName{
+  font-weight: bold;
+  padding: 10px;
+  font-size: 22px;
+  text-align: center;
+  margin: 10px auto;
+}
+
+.MobileCompany .Table{
+  
+  border-collapse: collapse;
+  border: 1px solid #e5e5e5;
+  /*box-shadow: 0 8px 19.2px 0 rgba(0,0,0,.13);*/
+  margin-bottom: 15px;
+  font-size: 16px;
+
+  
+ 
+}
+
+.MobileCompany .Table .cell{
+  
+  border: solid blue 1px;
+  text-align: center;
+  padding: 5px 10px;
+ 
+}
+
+.MobileCompany .TrayColor{
+  background-color: #D3EAFC;
+}
+
+
+.MobileCompany .Head{
+  background-color: #73BBF6;
+  
+  
+   
+}
+
+.MobileCompany .New {
+  margin-top:5px;
+}
