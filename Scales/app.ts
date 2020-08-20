@@ -62,13 +62,13 @@ class Apple extends Product {
         this.color=_color;
     }
 
-    setColor():string {   //получить цвет продукта
+    getColor():string {   //получить цвет продукта
         return this.color;
     }
 
     getName():string {   //получить название продукта
         super.getName();      
-        this.setColor();
+        //this.getColor();
         return (this.color + " " + this.name); 
        
     }
@@ -99,7 +99,7 @@ let tomato1:Tomato=new Tomato("помидор№1", 200);
 console.log("Вес продукта  " +  tomato1.getName() + "  равен  "+ tomato1.getScale() )
 
 let apple2:Apple=new Apple("яблоко№2", 210, "красное");
-let tomato2:Tomato=new Tomato("помидор2", 210);
+let tomato2:Tomato=new Tomato("помидор№2", 205);
 
 scales.add(apple1);
 scales.add(apple2);
