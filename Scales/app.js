@@ -60,13 +60,13 @@ var Apple = /** @class */ (function (_super) {
         _this.color = _color;
         return _this;
     }
-    Apple.prototype.setColor = function () {
+    Apple.prototype.getColor = function () {
         return this.color;
     };
     Apple.prototype.getName = function () {
         _super.prototype.getName.call(this);
-        this.setColor();
-        return (this.color + " " + this.name);
+        this.getColor();
+        return (this.getColor() + " " + this.name);
     };
     return Apple;
 }(Product));
@@ -87,7 +87,8 @@ console.log("Вес продукта  " + apple1.color + apple1.name + "  рав
 var tomato1 = new Tomato("помидор№1", 200);
 console.log("Вес продукта  " + tomato1.getName() + "  равен  " + tomato1.getScale());
 var apple2 = new Apple("яблоко№2", 210, "красное");
-var tomato2 = new Tomato("помидор2", 210);
+console.log("Вес продукта  " + apple2.getName() + "  равен  " + apple2.getScale());
+var tomato2 = new Tomato("помидор№2", 205);
 scales.add(apple1);
 scales.add(apple2);
 scales.add(tomato1);
