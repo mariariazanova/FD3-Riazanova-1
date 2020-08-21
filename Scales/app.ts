@@ -68,7 +68,7 @@ class Apple extends Product {
 
     getName():string {   //получить название продукта
         super.getName();      
-        this.getColor();
+        //this.getColor();
         return (this.getColor() + " " + this.name); 
        
     }
