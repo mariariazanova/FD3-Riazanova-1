@@ -7,33 +7,36 @@ interface IStorageEngine {
 
 class Scales<StorageEngine  extends IStorageEngine> {
     
-    productsArr:Array<Product>;
+    //productsArr:Array<Product>;
     storage:StorageEngine;
 
     constructor(_storage:StorageEngine) {
-        this.productsArr=[]; 
+        //this.productsArr=[]; 
         this.storage=_storage;
     }
 
     add(_product:Product):void {
-        this.productsArr.push(_product);
+        this.storage.addItem(_product);
     }
 
     getSumScale():number {
-        let sumScale:number = 0;
+        let _sumScale:number = 0;
+        
         let quantity:number=this.storage.getCount();
         for(let i:number=0; i<quantity; i++){
-            sumScale+=this.storage.getItem(i).getScale();
-        };                
-        return sumScale;
+            _sumScale += this.storage.getItem(i).getScale();
+        }               
+        return _sumScale;
     }
 
     getNameList():Array<string> {
-        let productsList:Array<string> = [];
-        this.productsArr.forEach( (prod:Product) => {
-            productsList.push (prod.getName());                   
-        });
-        return productsList;
+        let _productsList:Array<string> = [];
+        let quantity:number=this.storage.getCount();
+        for(let i:number=0; i<quantity; i++){
+            _productsList.push(this.storage.getItem(i).getName());
+        }   
+        
+        return _productsList;
     }
 }
 
@@ -99,14 +102,14 @@ class ScalesStorageEngineLocalStorage implements IStorageEngine {
         localStorage.products = JSON.stringify(this.storage); 
      }
 
-     getItem(_index:number):Product {
+    getItem(_index:number):Product {
         //let a:any =JSON.parse(localStorage.products);
         return new Product(this.storage[_index].name,this.storage[_index].weight);
         
 
      }    
 
-     getCount():number {
+    getCount():number {
         //let a: any = JSON.parse(localStorage.products);
         return this.storage.length;
     }

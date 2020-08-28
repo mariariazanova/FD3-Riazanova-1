@@ -1,26 +1,27 @@
 var Scales = /** @class */ (function () {
     function Scales(_storage) {
-        this.productsArr = [];
+        //this.productsArr=[]; 
         this.storage = _storage;
     }
     Scales.prototype.add = function (_product) {
-        this.productsArr.push(_product);
+        this.storage.addItem(_product);
     };
     Scales.prototype.getSumScale = function () {
-        var sumScale = 0;
+        var _sumScale = 0;
         var quantity = this.storage.getCount();
         for (var i = 0; i < quantity; i++) {
-            sumScale += this.storage.getItem(i).getScale();
+            _sumScale += this.storage.getItem(i).getScale();
         }
         ;
-        return sumScale;
+        return _sumScale;
     };
     Scales.prototype.getNameList = function () {
-        var productsList = [];
-        this.productsArr.forEach(function (prod) {
-            productsList.push(prod.getName());
-        });
-        return productsList;
+        var _productsList = [];
+        var quantity = this.storage.getCount();
+        for (var i = 0; i < quantity; i++) {
+            _productsList.push(this.storage.getItem(i).getName());
+        }
+        return _productsList;
     };
     return Scales;
 }());
