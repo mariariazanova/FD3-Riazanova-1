@@ -117,6 +117,7 @@ class ScalesStorageEngineLocalStorage implements IStorageEngine {
 
 }
 
+localStorage.clear();
 
 let scales1:Scales<ScalesStorageEngineArray> = new Scales(new ScalesStorageEngineArray());
 let scales2:Scales<ScalesStorageEngineLocalStorage> = new Scales(new ScalesStorageEngineLocalStorage());

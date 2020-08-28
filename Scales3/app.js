@@ -12,7 +12,6 @@ var Scales = /** @class */ (function () {
         for (var i = 0; i < quantity; i++) {
             _sumScale += this.storage.getItem(i).getScale();
         }
-        ;
         return _sumScale;
     };
     Scales.prototype.getNameList = function () {
@@ -82,6 +81,7 @@ var ScalesStorageEngineLocalStorage = /** @class */ (function () {
     };
     return ScalesStorageEngineLocalStorage;
 }());
+localStorage.clear();
 var scales1 = new Scales(new ScalesStorageEngineArray());
 var scales2 = new Scales(new ScalesStorageEngineLocalStorage());
 var product1 = new Product("яблоко№1", 150);
