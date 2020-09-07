@@ -1,5 +1,5 @@
 class Scales {
-
+    
     productsArr:Array<Product>;
 
     constructor() {
@@ -61,6 +61,15 @@ class Apple extends Product {
         super(_name, _weight); 
         this.color=_color;
     }
+
+    /*
+    constructor(_name:string, _weight:number, _color:string) {
+        super("apple", _weight); 
+        this.color=_color;
+    }
+
+
+    */
 
     getColor():string {   //получить цвет продукта
         return this.color;
